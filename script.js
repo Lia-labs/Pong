@@ -16,7 +16,7 @@ Velocity =5;
 //Positions
 ball_initial_top= playground.offsetHeight/2;
 ball_initial_left= playground.offsetWidth/2;
-console.log(ball_initial_left,ball_initial_top);
+console.log(ball.offsetTop,ball.offsetLeft);
 
 
 
@@ -114,43 +114,49 @@ let intervalId;
 function startBallMovement() {
         clearInterval(intervalId); 
         intervalId = setInterval(() => {
+        console.log(TC,LC);
         ball_position_top = ball.offsetTop + TC;
         ball_position_left = ball.offsetLeft + LC;
-        ball.style.top = ball_position_top + "px";
+        ball_position_left_normalizated = ball_position_left- playground.offsetLeft;
+        //ball.style.top = ball_position_top + "px";
         ball.style.left = ball_position_left + "px";
+
+        console.log(TC,LC,ball.offsetTop,ball_position_top,ball.style.top,ball_position_left ,ball.style.left );
 
         b2_position_top = b2.offsetTop;
         b2_position_center= b2_position_top+70;
         if (ball_position_top >= b2_position_center){
             if ((b2_position_top+140) <= playground.offsetHeight-10){ 
-            b2_position_top += V * 0.6;
+            b2_position_top = V * 0.6;
             }
         }else{
             if (b2_position_top >=20){
-            b2_position_top -= V * 0.6;
+            b2_position_top = V * 0.6;
             }
         }
         b2.style.top = b2_position_top+ "px";
 
-        if (ball_position_top >= 800) {
+        if (ball_position_top >= (playground.offsetTop+800)) {
             if (iy > 0) {
                 TC = -iy;
             } else {
                 TC = iy;
             }
         }
-        if (ball_position_top <= 13) {
+        if (ball_position_top <= (playground.offsetTop+10)) {
             TC = Math.abs(iy);
           }
         
-        if (ball_position_left >= 1600) {
+        console.log(ball_position_left,playground.offsetLeft,playground.offsetLeft+1600);
+        if (ball_position_left_normalizated >= 1600){
             addpoint1();
-            reset(Velocity,"right");
+            //reset(Velocity,"right");
         }
-        if (ball_position_left <= 0) {
+        if (ball_position_left_normalizated <= 0) {
             addpoint2();
-            reset(Velocity,"left");
+           //reset(Velocity,"left");
         }
+        /*
         if (ball_position_left <= (b1.offsetLeft + 6)) {
             if (ball_position_top > b1.offsetTop && ball_position_top < (b1.offsetTop + 140)) {
                 V += 1;
@@ -181,7 +187,8 @@ function startBallMovement() {
                 LC = ix;
             }
         }
-
+            */
+/*
         if (PScore2 >=7 ||  PScore1 >=7){
             gameover();
             clearInterval(intervalId); 
@@ -194,6 +201,7 @@ function startBallMovement() {
             Menu()
             return;
         }
+            */
     }, 1000 / 60.0);
     return intervalId;
 }
@@ -201,10 +209,16 @@ function startBallMovement() {
 // Listeners 
 
 window.addEventListener("mousemove", (ev)=>{
-    if ((ev.clientY-70 )> 14 && (ev.clientY +70) < 813){
+    //console.log(ev.clientX,ev.clientX-70,"\\",ev.clientY,ev.clientY+70);
+    let cursorGameY = ev.clientY - playground.offsetTop;
+    if (cursorGameY >70 && cursorGameY < 730){
+        b1.style.top = ( ev.clientY - playground.offsetTop -70)+ "px";
+        /*
     if(!pause_condition==true){
       b1.style.top = (ev.clientY -70)+ "px";
-}}});
+}
+*/      
+}});
 reset_button.addEventListener('click', e => { 
     StartGame(Velocity);
 });
@@ -215,7 +229,8 @@ Menu_button.addEventListener('click', e => {
 
 
 // Start
-StartGame(Velocity);
+//StartGame(Velocity);
+//console.log(playground.offsetTop,playground.offsetLeft);
 
 
 
