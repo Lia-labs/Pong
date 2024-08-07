@@ -16,7 +16,6 @@ Velocity =5;
 //Positions
 ball_initial_top= playground.offsetHeight/2;
 ball_initial_left= playground.offsetWidth/2;
-console.log(ball.offsetTop,ball.offsetLeft);
 
 
 
@@ -45,6 +44,8 @@ function StartGame(Velocity){
     ball.style.top = ball_initial_top+"px";
     ball.style.left = ball_initial_left+"px";
     playground.style.border ="10px solid green";
+    ball_position_top_variable = ball_initial_top;
+    ball_position_left_variable = ball_initial_left;
     startBallMovement();
 };
 
@@ -82,6 +83,8 @@ function reset(Velocity,Field_Side){
     TC = iy;
     LC = ix;
     playground.style.border ="10px solid green";
+    ball_position_top_variable = ball_initial_top;
+    ball_position_left_variable = ball_initial_left;
     startBallMovement();
 };
 
@@ -110,57 +113,64 @@ function addpoint2(){
 };
 
 let intervalId;
+ball_position_top_variable = ball.offsetTop;
+ball_position_left_variable = ball.offsetLeft;
+b2_position_top = b2.offsetTop-playground.offsetTop;
+
 
 function startBallMovement() {
         clearInterval(intervalId); 
         intervalId = setInterval(() => {
-        console.log(TC,LC);
-        ball_position_top = ball.offsetTop + TC;
+        
+    
         ball_position_left = ball.offsetLeft + LC;
         ball_position_left_normalizated = ball_position_left- playground.offsetLeft;
-        //ball.style.top = ball_position_top + "px";
-        ball.style.left = ball_position_left + "px";
+        ball_position_top_variable_normalizated = ball_position_top_variable - playground.offsetTop;
 
-        console.log(TC,LC,ball.offsetTop,ball_position_top,ball.style.top,ball_position_left ,ball.style.left );
+        ball.style.top = (ball_position_top_variable+TC)+"px";
+        ball_position_top_variable += TC;
+        ball.style.left = (ball_position_left_variable + LC) + "px";
+        ball_position_left_variable += LC;
 
-        b2_position_top = b2.offsetTop;
         b2_position_center= b2_position_top+70;
-        if (ball_position_top >= b2_position_center){
-            if ((b2_position_top+140) <= playground.offsetHeight-10){ 
-            b2_position_top = V * 0.6;
+        if (ball.offsetTop >= (b2.offsetTop+70)){
+            if ((b2_position_top+140) <= 790){ 
+            b2_position_top += V * 0.6;
             }
         }else{
-            if (b2_position_top >=20){
-            b2_position_top = V * 0.6;
+            if (b2_position_top >= 10){
+            b2_position_top -= V * 0.6;
             }
         }
         b2.style.top = b2_position_top+ "px";
 
-        if (ball_position_top >= (playground.offsetTop+800)) {
+
+        if (ball.offsetTop >= playground.offsetTop+800) {
             if (iy > 0) {
                 TC = -iy;
             } else {
                 TC = iy;
             }
         }
-        if (ball_position_top <= (playground.offsetTop+10)) {
+        if (ball.offsetTop <= playground.offsetTop+10) {
             TC = Math.abs(iy);
           }
+
         
-        console.log(ball_position_left,playground.offsetLeft,playground.offsetLeft+1600);
         if (ball_position_left_normalizated >= 1600){
             addpoint1();
-            //reset(Velocity,"right");
+            reset(Velocity,"right");
         }
         if (ball_position_left_normalizated <= 0) {
             addpoint2();
-           //reset(Velocity,"left");
+           reset(Velocity,"left");
         }
-        /*
-        if (ball_position_left <= (b1.offsetLeft + 6)) {
-            if (ball_position_top > b1.offsetTop && ball_position_top < (b1.offsetTop + 140)) {
+           
+        
+        if (ball.offsetLeft <= (b1.offsetLeft + 6) && ball.offsetLeft>=b1.offsetLeft) {
+            if (ball.offsetTop > b1.offsetTop && ball.offsetTop < (b1.offsetTop + 140)) {
                 V += 1;
-                ball_position_top_normalizated = ball_position_top - b1.offsetTop;
+                ball_position_top_normalizated = ball.offsetTop - b1.offsetTop;
                 if (ball_position_top_normalizated <= 70) {
                     Angle_Calculated = (5 / 7) * ball_position_top_normalizated - 70;
                 } else {
@@ -172,10 +182,10 @@ function startBallMovement() {
                 LC = ix;
             }
         }
-        if (ball_position_left >= (b2.offsetLeft-10)) {
-            if (ball_position_top > b2.offsetTop && ball_position_top < (b2.offsetTop + 140)) {
+        if (ball.offsetLeft >= (b2.offsetLeft-10) && ball.offsetLeft < b2.offsetLeft) {
+            if (ball.offsetTop > b2.offsetTop && ball.offsetTop < (b2.offsetTop + 140)) {
                 V += 1;
-                ball_position_top_normalizated = ball_position_top - b2.offsetTop;
+                ball_position_top_normalizated = ball.offsetTop - b2.offsetTop;
                 if (ball_position_top_normalizated <= 70) {
                     Angle_Calculated = -(5 / 7) * ball_position_top_normalizated + 250;
                 } else {
@@ -187,8 +197,8 @@ function startBallMovement() {
                 LC = ix;
             }
         }
-            */
-/*
+            
+
         if (PScore2 >=7 ||  PScore1 >=7){
             gameover();
             clearInterval(intervalId); 
@@ -201,7 +211,7 @@ function startBallMovement() {
             Menu()
             return;
         }
-            */
+            
     }, 1000 / 60.0);
     return intervalId;
 }
@@ -209,15 +219,11 @@ function startBallMovement() {
 // Listeners 
 
 window.addEventListener("mousemove", (ev)=>{
-    //console.log(ev.clientX,ev.clientX-70,"\\",ev.clientY,ev.clientY+70);
     let cursorGameY = ev.clientY - playground.offsetTop;
-    if (cursorGameY >70 && cursorGameY < 730){
-        b1.style.top = ( ev.clientY - playground.offsetTop -70)+ "px";
-        /*
+    if (cursorGameY >70 && cursorGameY < 730){ 
     if(!pause_condition==true){
-      b1.style.top = (ev.clientY -70)+ "px";
-}
-*/      
+      b1.style.top = ( ev.clientY - playground.offsetTop -70)+ "px";
+}     
 }});
 reset_button.addEventListener('click', e => { 
     StartGame(Velocity);
@@ -229,8 +235,7 @@ Menu_button.addEventListener('click', e => {
 
 
 // Start
-//StartGame(Velocity);
-//console.log(playground.offsetTop,playground.offsetLeft);
+StartGame(Velocity);
 
 
 

@@ -6,15 +6,14 @@ body {
     border-left: 6px solid aqua;
     height: 140px;
     position:relative;
-    top: 40px; left: 40px;
+    top: 40px; left: 10px;
   }
 
-.game{
-    margin-left: 15%;
-    margin-right: 15%;
+  .game{
     margin-top: 5%;
     margin-bottom: 5%;
-
+    margin-left: 10%;
+    margin-right: 10%;
 
 }
 
@@ -29,7 +28,7 @@ body {
     border-left: 6px solid aqua;
     height: 140px;
     position:relative;
-    top: 40px; left: 1544px; 
+    top: 40px; left: 1565px; 
 }
 .playground{
     
@@ -60,7 +59,7 @@ body {
     width: 800px;
     height: 200px;
     position:relative;
-    top: 300px; left: 410px; 
+    top: -500px; left :400px;
     display: none;
 }
 
@@ -95,6 +94,8 @@ body {
     display: flex;
     width: 1600px;
     height: 100px;
+    position: relative;
+    top:0;
 
 }
 .Menu_button{
