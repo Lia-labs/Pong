@@ -5,26 +5,50 @@ const b2 = document.querySelector("#b2");
 const ball = document.querySelector("#ball");
 const playground = document.querySelector("#playground");
 const reset_button = document.querySelector("#reset_button");
+const Main_Menu = document.querySelector("#Mainmenu");
 const Menu_button = document.querySelector("#Menu_button");
 const text_Pause_Menu = document.querySelector("#text_Pause_Menu");
 const Pause_Menu = document.querySelector("#Pause_Menu");
+const ScoreFrame = document.querySelector("#ScoreFrame");
 const Score1 = document.querySelector("#Punctuation1");
 const Score2 = document.querySelector("#Punctuation2");
+const Start_button = document.querySelector("#Start_button");
+const Back_Main_Menu = document.querySelector("#Back_Main_Menu");
+
+
 
 Velocity =5;
 
 //Positions
-ball_initial_top= playground.offsetHeight/2;
-ball_initial_left= playground.offsetWidth/2;
+ball_initial_top= 400;
+ball_initial_left= 800;
+console.log(ball_initial_top,ball_initial_left);
 
 
 
 // Functions 
 
+function Menu_hidding(){
+    Main_Menu.style.display="none";
+    StartGame(Velocity);
+    playground.style.display="flex";
+    ScoreFrame.style.display="flex";
+
+}
+
+function back_to_Menu(){
+    Main_Menu.style.display="block";
+    playground.style.display="none";
+    ScoreFrame.style.display="none";
+    Pause_Menu.style.display="none";
+}
+
+
 function gameover(){
     LC = 0;
     TC = 0;
     playground.style.border ="10px solid red";
+    playground.style.background="rgb(62, 14, 14)";
 
 };
 
@@ -44,6 +68,7 @@ function StartGame(Velocity){
     ball.style.top = ball_initial_top+"px";
     ball.style.left = ball_initial_left+"px";
     playground.style.border ="10px solid green";
+    playground.style.background= "rgb(7, 42, 7)";
     ball_position_top_variable = ball_initial_top;
     ball_position_left_variable = ball_initial_left;
     startBallMovement();
@@ -66,25 +91,19 @@ if (pause_condition == false ){
 
 function reset(Velocity,Field_Side){
     if(Field_Side == "left"){
-        ball.style.top = ball_initial_top+"px";
-        ball.style.left = (ball_initial_left-200)+"px";
         angle = GenerateAngleInitial(110,250);
     }
     if(Field_Side == "right"){
-        ball.style.top = ball_initial_top+"px";
-        ball.style.left = (ball_initial_left+200)+"px";
         angle = GenerateAngleInitial(-70,70);
     }
-    
+    ball_position_top_variable = ball_initial_top;
+    ball_position_left_variable = ball_initial_left;
     playground.style.border ="10px solid green";
     V = Velocity
     ix = V * Math.cos(((angle*Math.PI)/180));
     iy = V * Math.sin(((angle*Math.PI)/180));
     TC = iy;
     LC = ix;
-    playground.style.border ="10px solid green";
-    ball_position_top_variable = ball_initial_top;
-    ball_position_left_variable = ball_initial_left;
     startBallMovement();
 };
 
@@ -157,13 +176,13 @@ function startBallMovement() {
           }
 
         
-        if (ball_position_left_normalizated >= 1600){
-            addpoint1();
+        if (ball_position_left_normalizated > 1600){
             reset(Velocity,"right");
+            addpoint1();
         }
-        if (ball_position_left_normalizated <= 0) {
-            addpoint2();
+        if (ball_position_left_normalizated < 0) {
            reset(Velocity,"left");
+           addpoint2();
         }
            
         
@@ -232,10 +251,18 @@ Menu_button.addEventListener('click', e => {
     text_Pause_Menu.innerText = "MENU";
     Menu();
 });
+Start_button.addEventListener('click', e => { 
+    console.log("PRESSED")
+    Menu_hidding();
+});
 
+Back_Main_Menu.addEventListener('click', e => { 
+    console.log("PRESSED")
+    back_to_Menu();
+});
 
 // Start
-StartGame(Velocity);
+//StartGame(Velocity);
 
 
 

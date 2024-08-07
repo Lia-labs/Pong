@@ -35,7 +35,7 @@ body {
     border : 10px solid green;
     width: 1600px;
     height: 800px;
-    display: flex;
+    display: none;
 
 }   
 /*
@@ -53,6 +53,46 @@ body {
     top: 400px; left: 797px;
 }
     */
+
+.Mainmenu{
+    border : 10px solid white;
+    width:  1600px;
+    height: 905px;
+    background-color: rgb(70, 48, 69);
+    position: relative;
+    top:0px; left:0px;
+}
+
+.MainLabel{
+    width: 1600px;
+    height: 750px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.BigPong{
+    font-size: 175px;
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: black 10px 10px 10px;
+}
+.Buttons_Main{
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 300px;
+    height: 100px;
+    font-size: 40px;
+    box-shadow: black 10px 10px 10px;
+
+
+}
+.MainButtons{
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .Pause_Menu{
     background-color:rgb(120, 91, 120);
     border : 4px solid purple;
@@ -91,7 +131,7 @@ body {
 .ScoreFrame{
     border : 10px solid purple;
     background-color:rgb(55, 31, 55);
-    display: flex;
+    display: none;
     width: 1600px;
     height: 100px;
     position: relative;
